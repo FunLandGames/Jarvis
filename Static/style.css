@@ -11,30 +11,35 @@ body {
 }
 
 h1 {
-  font-size: 40px;
   text-shadow: 0 0 20px cyan;
 }
 
-.credit {
-  color: orange;
+#jarvisCircle {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  margin: 20px auto;
+  border: 3px solid cyan;
+  box-shadow: 0 0 25px cyan;
+  animation: rotate 6s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.speaking {
+  box-shadow: 0 0 60px cyan !important;
 }
 
 #chat {
-  margin: 20px auto;
-  width: 90%;
-  height: 300px;
-  border: 2px solid cyan;
-  padding: 15px;
+  height: 250px;
   overflow-y: auto;
-  box-shadow: 0 0 20px cyan;
-}
-
-button {
-  padding: 15px 30px;
-  font-size: 18px;
-  background: cyan;
-  border: none;
-  cursor: pointer;
+  border: 1px solid cyan;
+  padding: 10px;
+  margin: 10px;
+}  cursor: pointer;
   box-shadow: 0 0 20px cyan;
 }
 
