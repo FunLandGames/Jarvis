@@ -1,43 +1,42 @@
-const chatDiv = document.getElementById("chat");
-
-function speak(text) {
-  const speech = new SpeechSynthesisUtterance(text);
-  speech.rate = 0.9;
-  speech.pitch = 0.7;
-  speech.lang = "en-US";
-  window.speechSynthesis.speak(speech);
+body {
+  margin: 0;
+  background: black;
+  color: cyan;
+  font-family: Arial;
+  text-align: center;
 }
 
-function addMessage(sender, text) {
-  chatDiv.innerHTML += `<p><b>${sender}:</b> ${text}</p>`;
-  chatDiv.scrollTop = chatDiv.scrollHeight;
+.container {
+  padding: 20px;
 }
 
-async function askAI(question) {
-  const response = await fetch("/ask", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ message: question })
-  });
-
-  const data = await response.json();
-  return data.reply;
+h1 {
+  text-shadow: 0 0 20px cyan;
 }
 
-function startListening() {
-  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-  recognition.lang = "en-US";
+#jarvisCircle {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  margin: 20px auto;
+  border: 3px solid cyan;
+  box-shadow: 0 0 25px cyan;
+  animation: rotate 6s linear infinite;
+}
 
-  recognition.onresult = async function(event) {
-    const userText = event.results[0][0].transcript;
-    addMessage("You", userText);
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
 
-    const aiReply = await askAI(userText);
-    addMessage("Jarvis", aiReply);
-    speak(aiReply);
-  };
+.speaking {
+  box-shadow: 0 0 60px cyan !important;
+}
 
-  recognition.start();
+#chat {
+  height: 250px;
+  overflow-y: auto;
+  border: 1px solid cyan;
+  padding: 10px;
+  margin: 10px;
 }
