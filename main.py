@@ -5,6 +5,7 @@ from groq import Groq
 app = Flask(__name__)
 
 client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+chat_memory = []
 
 @app.route("/")
 def home():
@@ -14,15 +15,18 @@ def home():
 def ask():
     user_message = request.json["message"]
 
+    chat_memory.append({"role": "user", "content": user_message})
+
     response = client.chat.completions.create(
         model="llama-3.1-8b-instant",
         messages=[
-            {"role": "system", "content": "You are Jarvis, a powerful AI assistant created by Lakshya. Speak confidently."},
-            {"role": "user", "content": user_message}
-        ]
+            {"role": "system", "content": "You are Jarvis, an advanced AI assistant created by Lakshya. Be smart, friendly and concise."}
+        ] + chat_memory
     )
 
     reply = response.choices[0].message.content
+    chat_memory.append({"role": "assistant", "content": reply})
+
     return jsonify({"reply": reply})
 
 if __name__ == "__main__":
