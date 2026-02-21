@@ -1,0 +1,49 @@
+body {
+  margin: 0;
+  background: black;
+  color: cyan;
+  font-family: Arial;
+  text-align: center;
+}
+
+.container {
+  padding: 20px;
+}
+
+h1 {
+  font-size: 40px;
+  text-shadow: 0 0 20px cyan;
+}
+
+.credit {
+  color: orange;
+}
+
+#chat {
+  margin: 20px auto;
+  width: 90%;
+  height: 300px;
+  border: 2px solid cyan;
+  padding: 15px;
+  overflow-y: auto;
+  box-shadow: 0 0 20px cyan;
+}
+
+button {
+  padding: 15px 30px;
+  font-size: 18px;
+  background: cyan;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 20px cyan;
+}
+
+.links {
+  margin-top: 20px;
+}
+
+.links a {
+  margin: 0 15px;
+  color: orange;
+  text-decoration: none;
+}
