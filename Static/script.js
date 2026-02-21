@@ -110,9 +110,4 @@ window.onload = function() {
     speak("System online. Good evening Lakshya");
     addMessage("Jarvis", "System Online 🔥");
   }, 1500);
-};  height: 250px;
-  overflow-y: auto;
-  border: 1px solid cyan;
-  padding: 10px;
-  margin: 10px;
-}
+};
