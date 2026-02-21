@@ -20,7 +20,7 @@ def ask():
     response = client.chat.completions.create(
         model="llama-3.1-8b-instant",
         messages=[
-            {"role": "system", "content": "You are Jarvis, an advanced AI assistant created by Lakshya. Be smart, friendly and concise."}
+            {"role": "system", "content": "You are Jarvis, a smart futuristic AI assistant created by Lakshya."}
         ] + chat_memory
     )
 
