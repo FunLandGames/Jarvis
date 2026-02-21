@@ -6,17 +6,11 @@ body {
   text-align: center;
 }
 
-.container {
-  padding: 20px;
-}
-
-h1 {
-  text-shadow: 0 0 20px cyan;
-}
+.container { padding: 20px; }
 
 #jarvisCircle {
-  width: 160px;
-  height: 160px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   margin: 20px auto;
   border: 3px solid cyan;
@@ -29,26 +23,34 @@ h1 {
   to { transform: rotate(360deg); }
 }
 
-.speaking {
-  box-shadow: 0 0 60px cyan !important;
-}
-
 #chat {
-  height: 250px;
+  height: 260px;
   overflow-y: auto;
   border: 1px solid cyan;
   padding: 10px;
   margin: 10px;
-}  cursor: pointer;
-  box-shadow: 0 0 20px cyan;
+  background: #000;
 }
 
-.links {
-  margin-top: 20px;
+.user-msg {
+  text-align: right;
+  background: #003333;
+  color: white;
+  padding: 8px;
+  margin: 5px;
+  border-radius: 10px;
 }
 
-.links a {
-  margin: 0 15px;
-  color: orange;
-  text-decoration: none;
+.ai-msg {
+  text-align: left;
+  background: #001111;
+  color: cyan;
+  padding: 8px;
+  margin: 5px;
+  border-radius: 10px;
+}
+
+input, button {
+  padding: 8px;
+  margin: 5px;
 }
