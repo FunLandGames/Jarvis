@@ -1,40 +1,116 @@
-body {
-  margin: 0;
-  background: black;
-  color: cyan;
-  font-family: Arial;
-  text-align: center;
+let recognition;
+let voices = [];
+let isListening = false;
+
+const chatDiv = document.getElementById("chat");
+
+function addMessage(sender, text) {
+  chatDiv.innerHTML += `<p><b>${sender}:</b> ${text}</p>`;
+  chatDiv.scrollTop = chatDiv.scrollHeight;
 }
 
-.container {
-  padding: 20px;
+function loadVoices() {
+  voices = speechSynthesis.getVoices();
+}
+speechSynthesis.onvoiceschanged = loadVoices;
+
+function speak(text, lang="en-US") {
+  window.speechSynthesis.cancel();
+  const circle = document.getElementById("jarvisCircle");
+  circle.classList.add("speaking");
+
+  const speech = new SpeechSynthesisUtterance(text);
+  speech.lang = lang;
+  speech.rate = 0.85;
+  speech.pitch = 0.6;
+
+  speech.onend = () => circle.classList.remove("speaking");
+
+  window.speechSynthesis.speak(speech);
 }
 
-h1 {
-  text-shadow: 0 0 20px cyan;
+function stopSpeaking() {
+  window.speechSynthesis.cancel();
 }
 
-#jarvisCircle {
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  margin: 20px auto;
-  border: 3px solid cyan;
-  box-shadow: 0 0 25px cyan;
-  animation: rotate 6s linear infinite;
+function detectLanguage(text) {
+  const hindiPattern = /[\u0900-\u097F]/;
+  return hindiPattern.test(text) ? "hi-IN" : "en-US";
 }
 
-@keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+async function askAI(message) {
+  const response = await fetch("/ask", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({message})
+  });
+
+  const data = await response.json();
+  return data.reply;
 }
 
-.speaking {
-  box-shadow: 0 0 60px cyan !important;
+async function processInput(text) {
+  addMessage("You", text);
+
+  // Android-style commands
+  if (text.toLowerCase().includes("open youtube")) {
+    window.open("https://youtube.com", "_blank");
+    speak("Opening YouTube");
+    return;
+  }
+
+  if (text.toLowerCase().includes("open google")) {
+    window.open("https://google.com", "_blank");
+    speak("Opening Google");
+    return;
+  }
+
+  const reply = await askAI(text);
+  addMessage("Jarvis", reply);
+
+  const lang = detectLanguage(reply);
+  speak(reply, lang);
 }
 
-#chat {
-  height: 250px;
+function sendText() {
+  const input = document.getElementById("textInput");
+  if (input.value.trim()) {
+    processInput(input.value);
+    input.value = "";
+  }
+}
+
+function startListening() {
+  recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+  recognition.continuous = true;
+  recognition.lang = "en-US";
+
+  recognition.onresult = function(event) {
+    const transcript = event.results[event.results.length - 1][0].transcript;
+
+    if (transcript.toLowerCase().includes("hey jarvis")) {
+      processInput(transcript.replace("hey jarvis", ""));
+    }
+  };
+
+  recognition.start();
+  isListening = true;
+}
+
+function stopListening() {
+  if (recognition && isListening) {
+    recognition.stop();
+    isListening = false;
+  }
+}
+
+window.onload = function() {
+  addMessage("Jarvis", "Booting system...");
+  setTimeout(() => {
+    speak("System online. Good evening Lakshya");
+    addMessage("Jarvis", "System Online 🔥");
+  }, 1500);
+};  height: 250px;
   overflow-y: auto;
   border: 1px solid cyan;
   padding: 10px;
